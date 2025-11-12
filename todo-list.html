@@ -233,8 +233,9 @@
 <script>
     let toods = document.getElementById('tood')
     let write = document.getElementById('write')
-    let notes = []
+    let notes = JSON.parse(localStorage.getItem("saveNote")) || [];
     let indexNumber = -1
+    displayNotes();
 
 
     function work() {
@@ -246,6 +247,8 @@
         else {
             toods.value = toods.value[0].toUpperCase() + toods.value.slice(1).toLowerCase()
             notes.push(toods.value)
+            localStorage.setItem("saveNote", JSON.stringify(notes));
+
             displayNotes()
             toods.value = ''
         }
@@ -293,6 +296,7 @@
         let newNote = prompt('Edit your note:', notes[indexNumber])
         if (newNote && newNote.trim() !== '') {
             notes[indexNumber] = newNote.trim()
+            localStorage.setItem("saveNote", JSON.stringify(notes));
             alert('Note edited successfully')
             displayNotes()
             indexNumber = -1
@@ -305,6 +309,7 @@
     function deletes() {
         if (indexNumber === -1) {
             alert('Please select a note to delete')
+            localStorage.setItem("saveNote", JSON.stringify(notes));
         }
 
         let reConfirm = confirm('Are you sure you want to delete this note?')
